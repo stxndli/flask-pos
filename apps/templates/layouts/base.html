@@ -22,7 +22,7 @@
   <link rel="icon" type="image/png" href="{{ config.ASSETS_ROOT }}/img/favicon.png">
 
   <title>
-    Soft UI Dashboard - {% block title %}{% endblock %} | AppSeed
+    Dashboard - {% block title %}{% endblock %} | AppSeed
   </title>
 
   <!--     Fonts and icons     -->
@@ -35,33 +35,34 @@
   <link href="{{ config.ASSETS_ROOT }}/css/nucleo-svg.css" rel="stylesheet" />
   <!-- CSS Files -->
   <link id="pagestyle" href="{{ config.ASSETS_ROOT }}/css/soft-ui-dashboard.css?v=1.0.6" rel="stylesheet" />
-  
+
   <link id="pagestyle_dark" href="{{ config.ASSETS_ROOT }}/css/dark-theme-core.css" rel="stylesheet" />
 
   <!-- Specific CSS goes HERE -->
-  {% block stylesheets %}{% endblock stylesheets %}  
+  {% block stylesheets %}{% endblock stylesheets %}
 
 </head>
+
 <body class="g-sidenav-show  bg-gray-100">
-  
-  {% include "includes/sidebar.html" %} 
+
+  {% include "includes/sidebar.html" %}
 
   <main class="main-content position-relative max-height-vh-100 h-100 border-radius-lg ">
 
-    {% include "includes/navigation.html" %} 
+    {% include "includes/navigation.html" %}
 
     {% block content %}{% endblock content %}
 
   </main>
 
   <!-- APP Configurator -->
-  {% include "includes/fixed-plugin.html" %} 
+  {% include "includes/fixed-plugin.html" %}
 
   <!-- Core JS Files -->
   {% include "includes/scripts.html" %}
 
-  <!-- Specific JS goes HERE --> 
-  {% block javascripts %}{% endblock javascripts %}  
+  <!-- Specific JS goes HERE -->
+  {% block javascripts %}{% endblock javascripts %}
 
   <script>
     var win = navigator.platform.indexOf('Win') > -1;
@@ -73,9 +74,10 @@
     }
   </script>
   <!-- Github buttons -->
-  <script async defer src="https://buttons.github.io/buttons.js"></script>  
+  <script async defer src="https://buttons.github.io/buttons.js"></script>
   <!-- Control Center for Soft Dashboard: parallax effects, scripts for the example pages etc -->
   <script src="{{ config.ASSETS_ROOT }}/js/soft-ui-dashboard.min.js?v=1.0.6"></script>
 
 </body>
+
 </html>

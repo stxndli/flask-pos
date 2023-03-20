@@ -1,0 +1,40 @@
+{% extends 'layouts/base.html' %}
+
+{% block title %} Product Page {% endblock title %}
+
+
+{% block content %}
+<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addProductModal">
+        New Product
+</button>
+<div class="product-grid">
+        {% for product in products %}
+        <div class="product-card" id="{{product.id}}">
+                <img class="product-image" src="{{ product.image }}" alt="{{ product.name }}">
+                <div class="product-name">{{ product.name }}</div>
+                <div class="product-description">{{ product.description }}</div>
+                <div class="product-price">${{ product.price }} + ${{ product.tax }} tax</div>
+                <button type="button" class="btn btn-danger" data-bs-toggle="modal"
+                        data-bs-target="#confirmDeleteModal" onclick="handleDeleteButton(event)">
+                        Delete
+                </button>
+        </div>
+        {% endfor %}
+</div>
+{% include "includes/footer.html" %}
+{% include "includes/addProductModal.html" %}
+{% with type="product" %}
+{% include "includes/confirmDeleteModal.html" %}
+{% endwith %}
+{% endblock content %}
+{% block javascripts %}
+<script>
+        handleDeleteButton = (e)=>{
+                const modal = document.querySelector("#confirmDeleteModal")
+                const id = modal.querySelector("#productId")
+                id.innerText = e.target.parentNode.id
+                const form = document.querySelector("#confirmDeleteForm")
+                form.id = e.target.parentNode.id
+        }
+</script>
+{% endblock javascripts %}

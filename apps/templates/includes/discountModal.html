@@ -1,0 +1,63 @@
+<!-- Modal -->
+<div class="modal fade" id="discountModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog modal-lg" role="document">
+    <form id="discountForm">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Add a discount</h5>
+          <button type="button" class="btn-close text-dark" data-bs-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <div class="mb-3">
+            <label for="name" class="form-label">Name</label>
+            <input type="text" class="form-control" id="name" name="name">
+          </div>
+          <div class="mb-3">
+            <label for="tax" class="form-label">Percentage</label>
+            <input type="number" class="form-control" id="percentage" name="percentage">
+          </div>
+
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn bg-gradient-secondary" data-bs-dismiss="modal">Cancel</button>
+          <button type="submit" class="btn bg-gradient-primary">
+            <div id="discountSubmit">Add</div>
+          </button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+{% block javascripts %}
+<script>
+  const discountForm = document.querySelector("#discountForm")
+  const discountButton = document.querySelector("#discountSubmit")
+  discountForm.onsubmit = async (e) => {
+    e.preventDefault()
+    discountButton.innerText = ""
+    discountButton.className = "spinner-border"
+    const token = localStorage.getItem("token")
+    const formData = new FormData(e.target)
+    const requestOptions = {
+      headers: {
+        Authorization: `${token}`,
+      },
+      method: 'POST',
+      body: formData
+    }
+    const response = await fetch("/api/discounts/", requestOptions)
+    discountButton.className = ""
+    if (response.status === 200) {
+      discountButton.innerText = "✔️"
+      location.reload()
+    }
+    else {
+      discountButton.innerText = "❌"
+    }
+
+  }
+</script>
+{% endblock javascripts %}

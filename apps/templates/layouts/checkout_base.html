@@ -1,19 +1,5 @@
-<!--
-=========================================================
-* Soft UI Dashboard - v1.0.6
-=========================================================
-
-* Product Page: https://www.creative-tim.com/product/soft-ui-dashboard
-* Copyright 2022 Creative Tim (https://www.creative-tim.com)
-* Licensed under MIT (https://www.creative-tim.com/license)
-* Coded by Creative Tim
-
-=========================================================
-
-* The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
--->
 <!DOCTYPE html>
-<html lang="ar" dir="rtl">
+<html lang="en">
 
 <head>
   <meta charset="utf-8" />
@@ -22,7 +8,7 @@
   <link rel="icon" type="image/png" href="{{ config.ASSETS_ROOT }}/img/favicon.png">
 
   <title>
-    Soft UI Dashboard - {% block title %}{% endblock %} | AppSeed
+    {% block title %}{% endblock %}
   </title>
 
   <!--     Fonts and icons     -->
@@ -35,31 +21,38 @@
   <link href="{{ config.ASSETS_ROOT }}/css/nucleo-svg.css" rel="stylesheet" />
   <!-- CSS Files -->
   <link id="pagestyle" href="{{ config.ASSETS_ROOT }}/css/soft-ui-dashboard.css?v=1.0.6" rel="stylesheet" />
+
   <link id="pagestyle_dark" href="{{ config.ASSETS_ROOT }}/css/dark-theme-core.css" rel="stylesheet" />
 
   <!-- Specific CSS goes HERE -->
-  {% block stylesheets %}{% endblock stylesheets %}  
+  {% block stylesheets %}{% endblock stylesheets %}
 
 </head>
-<body class="g-sidenav-show rtl bg-gray-100">
-  
-  {% include "includes/sidebar-rtl.html" %}
 
-  <main class="main-content position-relative max-height-vh-100 h-100 border-radius-lg overflow-x-hidden">
+<body class="bg-gray-100">
 
-    {% include "includes/navigation-rtl.html" %}
-   
+  {% block cart %}{% endblock cart %}
+
+
+  <main class="main-content position-relative max-height-vh-100 h-100 border-radius-lg p-5">
+    <div class="d-flex flex-row justify-content-between align-items-center">
+
+      <h1>Products</h1>
+      {% block cartButton %}{% endblock cartButton %}
+    </div>
+
+
     {% block content %}{% endblock content %}
-    
+
   </main>
 
-  {% include "includes/fixed-plugin.html" %}
 
+  <!-- Core JS Files -->
   {% include "includes/scripts.html" %}
 
-  <!-- Specific JS goes HERE --> 
+  <!-- Specific JS goes HERE -->
   {% block javascripts %}{% endblock javascripts %}
-  
+
   <script>
     var win = navigator.platform.indexOf('Win') > -1;
     if (win && document.querySelector('#sidenav-scrollbar')) {
@@ -75,4 +68,5 @@
   <script src="{{ config.ASSETS_ROOT }}/js/soft-ui-dashboard.min.js?v=1.0.6"></script>
 
 </body>
+
 </html>

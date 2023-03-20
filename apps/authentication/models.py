@@ -23,7 +23,7 @@ class Users(db.Model, UserMixin):
 
     oauth_github  = db.Column(db.String(100), nullable=True)
 
-    api_token     = db.Column(db.String(100))
+    api_token     = db.Column(db.String(255))
     api_token_ts  = db.Column(db.Integer)    
 
     def __init__(self, **kwargs):

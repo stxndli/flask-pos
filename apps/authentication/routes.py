@@ -24,14 +24,19 @@ from apps.authentication.forms import LoginForm, CreateAccountForm
 from apps.authentication.models import Users
 
 from apps.authentication.util import verify_pass, generate_token
+import requests
 
 # Bind API -> Auth BP
 api = Api(blueprint)
 
 @blueprint.route('/')
 def route_default():
-    return redirect(url_for('authentication_blueprint.login'))
-
+    host = request.host.split(':')[0]
+    port = request.host.split(':')[1]
+    api_url = f"http://{host}:{port}/api/products"
+    response = requests.get(api_url)
+    products = response.json()["data"]
+    return render_template('home/index.html', products=products)
 # Login & Registration
 
 @blueprint.route("/github")
@@ -61,7 +66,7 @@ def login():
         # Check the password
         if user and verify_pass(password, user.password):
             login_user(user)
-            return redirect(url_for('authentication_blueprint.route_default'))
+            return redirect(url_for('home_blueprint.products'))
 
         # Something (user or pass) is not ok
         return render_template('accounts/login.html',

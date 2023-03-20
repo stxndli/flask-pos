@@ -4,16 +4,27 @@ Copyright (c) 2019 - present AppSeed.us
 """
 
 from apps.home import blueprint
-from flask import render_template, request
+from apps.models    import *
+from apps.api.forms import *
+from flask import render_template, request, jsonify 
+import requests
 from flask_login import login_required
 from jinja2 import TemplateNotFound
 
-from apps.config import API_GENERATOR
-
-@blueprint.route('/index')
+@blueprint.route('/products')
 @login_required
-def index():
-    return render_template('home/index.html', segment='index', API_GENERATOR=len(API_GENERATOR))
+def products():
+    all_objects = Product.query.all()
+    output = [{'id': obj.product_id, **ProductForm(obj=obj).data} for obj in all_objects]
+    segment = get_segment(request)
+    return render_template('home/products.html', products=output, segment=segment)
+@blueprint.route('/discounts')
+@login_required
+def discounts():
+    all_objects = Discount.query.all()
+    output = [{'id': obj.discount_id, **DiscountForm(obj=obj).data} for obj in all_objects]
+    segment = get_segment(request)
+    return render_template('home/discounts.html', discounts=output, segment=segment)
 
 @blueprint.route('/<template>')
 @login_required
@@ -28,7 +39,7 @@ def route_template(template):
         segment = get_segment(request)
 
         # Serve the file (if exists) from app/templates/home/FILE.html
-        return render_template("home/" + template, segment=segment, API_GENERATOR=len(API_GENERATOR))
+        return render_template("home/" + template, segment=segment)
 
     except TemplateNotFound:
         return render_template('home/page-404.html'), 404

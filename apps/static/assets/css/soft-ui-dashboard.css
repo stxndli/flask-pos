@@ -22704,4 +22704,43 @@ pre[class*=language-] {
     overflow: auto !important;
   }
 }
+.product-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, 300px);
+        gap: 20px;
+      }
+
+      /* Style the product card */
+      .product-card {
+        border: 1px solid #ddd;
+        padding: 20px;
+      }
+
+      /* Style the product image */
+      .product-image {
+        width: 100%;
+        height: 200px;
+        object-fit: cover;
+        margin-bottom: 10px;
+      }
+
+      /* Style the product name */
+      .product-name {
+        font-size: 20px;
+        font-weight: bold;
+        margin-bottom: 10px;
+      }
+
+      /* Style the product description */
+      .product-description {
+        font-size: 16px;
+        margin-bottom: 10px;
+      }
+
+      /* Style the product price */
+      .product-price {
+        font-size: 16px;
+        font-weight: bold;
+        margin-bottom: 10px;
+      }
 /*# sourceMappingURL=soft-ui-dashboard.css.map */

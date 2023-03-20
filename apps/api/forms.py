@@ -8,7 +8,12 @@ from apps.models import *
 ModelForm = model_form_factory(Form)
 
 
-class BookForm(ModelForm):
+class ProductForm(ModelForm):
     class Meta:
-        model = Book
+        model = Product
+
+
+class DiscountForm(ModelForm):
+    class Meta:
+        model = Discount
 
