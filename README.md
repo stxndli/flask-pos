@@ -4,7 +4,7 @@
 
 ```bash
 $ git clone https://github.com/stxndli/flask-POS.git
-$ cd flask-soft-ui-dashboard
+$ cd flask-POS
 ```
 
 <br />
@@ -42,5 +42,7 @@ At this point, the app runs at `http://127.0.0.1:5000/`.
 
 <br />
 Create users at http://127.0.0.1:5000/register
+<br />
 Login at http://127.0.0.1:5000/login
+<br />
 environment variables are in env.sample file
