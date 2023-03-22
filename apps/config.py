@@ -9,6 +9,10 @@ class Config(object):
 
     basedir = os.path.abspath(os.path.dirname(__file__))
 
+
+    # Uploaded files folder
+    UPLOAD_FOLDER = os.getenv('UPLOAD_FOLDER', os.path.join(basedir, 'static/assets/upload'))
+
     # Assets Management
     ASSETS_ROOT = os.getenv('ASSETS_ROOT', '/static/assets')
 

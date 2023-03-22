@@ -74,7 +74,7 @@ def login():
                                form=login_form)
 
     if current_user.is_authenticated:
-        return redirect(url_for('home_blueprint.index'))
+        return redirect(url_for('home_blueprint.products'))
     else:
         return render_template('accounts/login.html',
                                form=login_form) 

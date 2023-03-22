@@ -4,9 +4,12 @@
 
 
 {% block content %}
-<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addProductModal">
-        New Product
-</button>
+<div class="d-flex flex-row justify-content-between pe-5 mt-3">
+        <h6>Products Page</h6>
+        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addProductModal">
+                New Product
+        </button>
+</div>
 <div class="product-grid">
         {% for product in products %}
         <div class="product-card" id="{{product.id}}">

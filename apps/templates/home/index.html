@@ -42,10 +42,10 @@
 
 
 {% block cart %}
-<div class="position-absolute container-fluid" style="z-index:99" id="cart" hidden>
+<div class="position-absolute container-fluid" id="cart" hidden>
   <div class="row">
-    <div class="col-lg-9 col-md-8 col-sm-7"></div>
-    <div class="col-lg-3 col-md-4 col-sm-5">
+    <div class="col-lg-8 col-md-7 col-sm-6"></div>
+    <div class="col-lg-4 col-md-5 col-sm-6" style="z-index:99">
       <div class="card">
         <div class="card-body">
             <div class="d-flex flex-row justify-content-between align-items-center">
@@ -109,6 +109,23 @@
         localStorage.setItem('cart',JSON.stringify(cart))
         updateCartUI()
     }
+    const increaseCount = (id)=>{
+            cart[id].qty += 1
+            localStorage.setItem("cart", JSON.stringify(cart))
+            updateCartUI()
+    }
+    const decreaseCount = (id)=>{
+            let product = cart[id]
+            if(product.qty > 1){
+                    product.qty -= 1
+                    cart[id] = product
+                    localStorage.setItem("cart", JSON.stringify(cart))
+                    updateCartUI()
+            }
+            else{
+                    removeFromCart(id)
+            }
+    }
     const closeCart = ()=>{
         cartElement.hidden = true     
     }
@@ -125,14 +142,34 @@
                         // add new item
                         const newProduct = document.createElement("div")
                         newProduct.id = `cart-item-${product.id}` 
-                        newProduct.className = 'd-flex flex-row justify-content-between'
-                        newProduct.innerHTML = `<p>${product.name}</p><p>$${product.price}</p><p>Qte: ${product.qty} <span role="button" onclick="removeFromCart(${product.id})">&times;</span></p>`
+                        newProduct.className = 'd-flex flex-row justify-content-between align-items-center'
+                        newProduct.innerHTML = `
+                                <p class="text-truncate" style="width: 96px;">${product.name}</p>
+                                <p>$${product.price+product.tax}</p>
+                                <p id="product-qte-${product.id}">Qte: ${product.qty}</p>
+                                <div class="d-flex gap-3 pb-3" role="group">
+                                        <!-- - -->
+                                        <svg role="button"  onclick="decreaseCount(${product.id})" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-dash-lg" viewBox="0 0 16 16">
+                                          <path fill-rule="evenodd" d="M2 8a.5.5 0 0 1 .5-.5h11a.5.5 0 0 1 0 1h-11A.5.5 0 0 1 2 8Z"/>
+                                        </svg>
+                                        <!-- + -->
+                                        <svg role="button" onclick="increaseCount(${product.id})" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-plus-lg" viewBox="0 0 16 16">
+                                          <path fill-rule="evenodd" d="M8 2a.5.5 0 0 1 .5.5v5h5a.5.5 0 0 1 0 1h-5v5a.5.5 0 0 1-1 0v-5h-5a.5.5 0 0 1 0-1h5v-5A.5.5 0 0 1 8 2Z"/>
+                                        </svg>
+                                        <!-- trash -->
+                                        <svg role="button" onclick="removeFromCart(${product.id})" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="red" class="bi bi-trash" viewBox="0 0 16 16">
+                                                <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z"/>
+                                                <path fill-rule="evenodd" d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z"/>
+                                        </svg>
+                                </div>
+
+                                `
                         productsListElement.appendChild(newProduct)
                 }
                 else{
                         // update item
-                        productElement.removeChild(productElement.lastChild)
-                        productElement.insertAdjacentHTML("beforeend", `<p>Qte: ${product.qty}<span role="button" onclick="removeFromCart(${product.id})">&times;</span></p>`)
+                        const itemQteElement = document.getElementById(`product-qte-${product.id}`)
+                        itemQteElement.innerText = `Qte: ${product.qty}`
                 }
                 const count = Object.keys(cart).length
                 itemsCountElement.innerText = count

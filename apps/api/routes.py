@@ -1,8 +1,10 @@
 import json
+import os
 
-from flask import request
+from flask import request, current_app
 from flask_restx import Api, Resource
 from werkzeug.datastructures import MultiDict
+from werkzeug.utils import secure_filename
 
 
 from apps.api import blueprint
@@ -45,7 +47,33 @@ class ProductRoute(Resource):
                 body_of_req = json.loads(request.data)
             else:
                 body_of_req = {}
-        form = ProductForm(MultiDict(body_of_req))
+        # Upload image
+        ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg'}
+        if 'image' not in request.files:
+            return {
+                       'message': 'An image is required',
+                       'success': False
+                   }, 400
+        file = request.files['image']
+        def allowed_file(filename):
+            return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
+        if file.filename == '':
+            return {
+                    'message': 'No selected file',
+                    'success': False
+                    }, 400
+        if file and allowed_file(file.filename):
+            filename = secure_filename(file.filename)
+            file.save(os.path.join(current_app.config['UPLOAD_FOLDER'], filename))
+        else:
+            return {
+                    'message': 'File not allowed',
+                    'success': False
+                    }, 400
+        # update body_of_req to match database model
+        body_of_req = MultiDict(body_of_req)
+        body_of_req['image'] = f'static/assets/upload/{filename}'
+        form = ProductForm(body_of_req)
         if form.validate():
             try:
                 obj = Product(**body_of_req)

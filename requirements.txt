@@ -17,6 +17,6 @@ blinker==1.4
 pyOpenSSL
 WTForms-Alchemy==0.18.0
 PyJWT~=2.4.0
-
-# flask_mysqldb
+mysqlclient==2.1.1
+#flask_mysqldb
 # psycopg2-binary
